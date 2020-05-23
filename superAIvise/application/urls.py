@@ -5,6 +5,5 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('monitor/', lambda r: StreamingHttpResponse(gen(VideoCamera()),
-                                                     content_type='multipart/x-mixed-replace; boundary=frame')),
+    path('monitor/', views.monitor),
 ]

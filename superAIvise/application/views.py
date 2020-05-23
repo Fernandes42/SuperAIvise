@@ -2,9 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .ml import object_detect
 from .forms import Video_form
+from django.http import StreamingHttpResponse
+from django.views.decorators import gzip
 import cv2
 import threading
 import gzip
+from django.shortcuts import redirect
 
 
 
@@ -14,7 +17,9 @@ def index(request):
         if form.is_valid():
             int = form.cleaned_data
             print(int)
-            object_detect()
+            # object_detect()
+            return redirect(monitor)
+
     else:
         form = Video_form()
         print(form)
@@ -48,10 +53,7 @@ def gen(camera):
         yield(b'--frame\r\n'
               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
-
-# @gzip.gzip_page
-# def index(request):
-#     try:
-#         return StreamingHttpResponse(gen(VideoCamera()), content_type="multipart/x-mixed-replace;boundary=frame")
-#     except:  # This is bad! replace it with proper handling
-#         pass
+def monitor(request):
+    x = threading.Thread(target=object_detect, args=(1,), daemon=True)
+    x.start()
+    return StreamingHttpResponse(gen(VideoCamera()), content_type="multipart/x-mixed-replace;boundary=frame")

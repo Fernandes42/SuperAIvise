@@ -53,7 +53,7 @@ def get_bounds():
 def get_leniancy():
     return 30
 
-def object_detect():
+def object_detect(int):
     print("this is getting triggered")
     execution_path = os.getcwd()
     camera = cv2.VideoCapture(0)
