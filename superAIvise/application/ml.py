@@ -20,6 +20,7 @@ def send_message():
 
 
 def forFrame(frame_number, output_array, output_count):
+    print(output_array)
     leniancy = get_leniancy()
     if leniancy == None:
         leniancy = 30
