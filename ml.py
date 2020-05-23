@@ -62,7 +62,7 @@ def object_detect():
     detector.loadModel()
     video_path = detector.detectObjectsFromVideo(camera_input=camera,
         output_file_path=os.path.join(execution_path, "camera_detected_video")
-        , frames_per_second=1, per_frame_function=forFrame, minimum_percentage_probability=50)
+        , frames_per_second=1, per_frame_function=forFrame, minimum_percentage_probability=50, save_detected_video=False)
     print(video_path)
 
 object_detect()
