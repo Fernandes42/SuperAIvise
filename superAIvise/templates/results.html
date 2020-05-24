@@ -1,0 +1,30 @@
+<head>
+    <title>
+        Feed
+    </title>
+    <style>
+        #center {
+            text-align:center;
+            display: flex;
+        }
+
+        #image-div{
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        #image {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width:85%;
+        }
+    </style>
+
+<body>
+    <div id = 'image-div'>
+            <img src="{% url 'video' %}" id='image'>
+    </div>
+</body>

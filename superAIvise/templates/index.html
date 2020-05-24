@@ -9,8 +9,8 @@
     </title>
     <style>
         body {
-            background-color:black;
-            color:white;
+            background-color:#5CDB95;
+            color:#EDF5E1;
         }
         #whole {
             text-align: center;
@@ -23,8 +23,12 @@
             font-size: 150px;
         }
         #form {
-            <!-- width:100%; -->
+            width:auto;
             display: inline-block;
+            color:#05386B;
+        }
+        small {
+            color:#05386B;
         }
     </style>
 </head>
@@ -36,9 +40,12 @@
                 <h1>
                     SuperAIvise
                 </h1>
-                <h5>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </h5>
+                <div class='pt-4'>
+                    <h2>
+                        SuperAIvise is an application designed to help parents in caring for their children. The application using Machine Learning tracks the child's location
+                        By using sophisticated ML techniques
+                    </h2>
+                </div>
             </div>
         </section>
         <section id='form'>
@@ -48,7 +55,7 @@
                     <table>
                         {{ form|crispy }}
                     </table>
-                    <button type="submit" class="btn btn-primary">Start</button>
+                    <button type="submit" class="btn btn-success my-3 btn-lg" style="width:200px">Start</button>
                 </form>
             </div>
         </section>
