@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 # from .ml import object_detect
+import sys
 from .forms import Video_form
 from django.http import StreamingHttpResponse
 from django.views.decorators import gzip
@@ -27,15 +28,21 @@ def index(request):
             else:
                 time_val *= 60
             # object_detect()
-            return redirect(monitor, number=phone,time=time_val)
+            return redirect(results, number=phone,time=time_val)
 
     else:
         form = Video_form()
         print(form)
     return render(request, 'index.html', {'form': form})
 
-def results(request):
-    return render(request, 'results.html')
+def results(request, number, time):
+    x = threading.Thread(target=object_detect, args=(10,), daemon=True)
+    x.start()
+    if x.is_alive() is True:
+        return render(request, 'results.html')
+    else:
+        data = 0
+        return render(request, 'results.html', {'data':0})
 
 class VideoCamera(object):
     def __init__(self):
@@ -64,11 +71,6 @@ def gen(camera):
         frame = cam.get_frame()
         yield(b'--frame\r\n'
               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-
-def monitor(request, number, time):
-    x = threading.Thread(target=object_detect, args=(time,), daemon=True)
-    x.start()
-    return StreamingHttpResponse(gen(VideoCamera()), content_type="multipart/x-mixed-replace;boundary=frame")
 
 def video_cam(request):
     return StreamingHttpResponse(gen(VideoCamera()), content_type="multipart/x-mixed-replace;boundary=frame")
@@ -103,8 +105,8 @@ def forFrame(frame_number, output_array, output_count):
             count = 1
     if count == 0:
         print("why you leave")
-        send_message()
-        exit()
+        # send_message()
+        sys.exit()
 
 def object_detect(time):
     execution_path = os.getcwd()
@@ -116,7 +118,7 @@ def object_detect(time):
     detector.loadModel()
     video_path = detector.detectObjectsFromVideo(camera_input=camera,
         output_file_path=os.path.join(execution_path, "camera_detected_video")
-        , frames_per_second=1, per_frame_function=forFrame, minimum_percentage_probability=50, save_detected_video=time)
+        , frames_per_second=20, per_frame_function=forFrame, minimum_percentage_probability=50, save_detected_video=True)
     return redirect(index)
 
 # atexit.register(redirect(index))
